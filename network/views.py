@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.core import serializers
@@ -26,8 +26,17 @@ def newpost(req):
 
 def get_following_posts(req):
     if (req.method == "GET"):
-        data = serializers.serialize('json', Post.objects.all())
-        return HttpResponse(data)
+        return render(req, "network/index.html", {
+            "posts": Post.objects.all()}
+            )
+
+def get_all_posts(req):
+    if req.method == "GET":
+        posts = Post.objects.select_related("creator").values("body", "created_at", "likes", "creator__username", "creator__email")
+        return JsonResponse({"posts": list(posts)})
+        # return render(req, "network/index.html", {
+        #     "posts": Post.objects.all()}
+        #     )
 
 def login_view(request):
     if request.method == "POST":
