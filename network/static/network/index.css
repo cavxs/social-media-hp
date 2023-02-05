@@ -1,0 +1,102 @@
+.index-header {
+  padding-left: 20px;
+}
+
+.input-container {
+  display: flex;
+  min-height: 140px;
+  max-height: 400px;
+  /* background-color: red; */
+  border-top: solid 1px rgb(221, 221, 221);
+  border-bottom: solid 1px rgb(221, 221, 221);
+}
+
+.img-container {
+  width: 80px;
+  padding-top: 20px;
+  /* background-color: blue; */
+}
+
+.img-container img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 70px;
+  margin: auto;
+  display: block;
+}
+
+.input-container form {
+  flex-grow: 1;
+  display: flex;
+  padding-top: 20px;
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.input-container form .extras {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  padding-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#text-inp {
+  display: block;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  font-size: 23px;
+  color: black;
+  padding: 0;
+  width: 90%;
+  max-height: 150px;
+  resize: none;
+}
+
+#submit-btn {
+  display: block;
+  background-color: rgb(196, 186, 137);
+  cursor: pointer;
+  border: none;
+  border-radius: 30px;
+  width: 100px;
+  height: 40px;
+  color: white;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  height: 140px;
+  /* background-color: red; */
+  border-bottom: solid 1px rgb(221, 221, 221);
+}
+.post-main {
+  display: flex;
+  flex-grow: 1;
+}
+.post-content {
+  padding-top: 20px;
+}
+.post-content .post-data {
+  font-size: 17px;
+  margin: 0;
+}
+
+.post-content .post-name {
+  font-size: 17px;
+  margin: 0 0 3px 0;
+}
+
+.post .liking {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+}
