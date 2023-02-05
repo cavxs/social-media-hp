@@ -8,7 +8,6 @@
 <div class="index-header">
     <h2>Home</h2>
     <a id="following" href="#" class="nav-link">Following</a>
-    {% comment %} <a id="following" href="{% url 'posts' %}" class="nav-link">All posts</a> {% endcomment %}
 
 </div>
 <div class="input-container">
@@ -46,7 +45,7 @@
 
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
 <script>
     const textarea = document.getElementById("text-inp");
     textarea.oninput = function() {
@@ -61,20 +60,11 @@
 
     
     document.getElementById("following").addEventListener("click", ()=> {
-        {% comment %} fetch("{% url 'posts' %}")
+        fetch("{% url 'following' %}")
         .then(res=> res.json())
         .then(res=> {
             console.log(res)
-        }) {% endcomment %}
-        $.ajax({
-            url: "{% url 'get_posts' %}",
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-              // Update the page with the new data
-              console.log(data.posts);
-            }
-          });
+        })
       })
 
     document.getElementById("post-form").onsubmit = () => {
