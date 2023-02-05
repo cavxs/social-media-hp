@@ -26,9 +26,7 @@ def newpost(req):
 
 def get_following_posts(req):
     if (req.method == "GET"):
-        posts = Post.objects.select_related('creator').all()
-        data = serializers.serialize('json', posts)
-        print(data)
+        data = serializers.serialize('json', Post.objects.all())
         return HttpResponse(data)
 
 def login_view(request):
