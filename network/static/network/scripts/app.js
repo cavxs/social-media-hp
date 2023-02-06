@@ -1,5 +1,6 @@
 const Index = window.require.Index;
-let useState = React.useState;
+const Profile = window.require.Profile;
+// const { BrowserRouter, Routes, Route } = ReactRouterDOM;
 
 const App = () => {
   return (
