@@ -1,0 +1,141 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+.profile-info-section {
+  flex-grow: 1;
+}
+.following-section {
+  flex-grow: 0.4;
+}
+.header {
+  width: 100%;
+}
+
+.profile-banner {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3.2;
+  background-color: #adadad;
+}
+.pfp-container {
+  display: block;
+  position: relative;
+  top: -110px;
+  margin-top: -75px;
+  margin: 0 auto;
+}
+.pfp {
+  aspect-ratio: 1;
+  width: 140px;
+  border-radius: 60px;
+  /* margin-left: 20px; */
+  /* margin-top: -75px; */
+  border: solid 7px var(--background);
+  box-sizing: border-box;
+}
+
+.pfp-container svg {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.pfp-container:hover svg {
+  display: block;
+}
+
+.pfp-container form {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.pfp-container form input {
+  background: transparent;
+  border: none;
+  /* display: none; */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  opacity: 0;
+}
+
+.p-btn {
+  display: inline-block;
+  position: absolute;
+  top: 18px;
+  transform: translateX(15px) scaleX(-1);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.p-info-sct {
+  font-size: 17px;
+  box-shadow: 0 56px 83px 172px var(--background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.p-info-sct > h2 {
+  margin-bottom: 0px;
+  margin-top: -90px;
+}
+
+.p-username {
+  margin-top: 0;
+  font-size: 14px;
+  color: #525252;
+}
+
+.p-ff-sct {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 260px;
+}
+
+.p-ff-sct h5 {
+  margin-top: 0;
+  font-weight: 300;
+}
+.p-ff-sct h5 span {
+  font-weight: bold;
+}
+
+.tweets-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bio {
+  margin-top: 0;
+}
+
+.follow-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.follow-buttons-container button {
+  width: 210px;
+  height: 30px;
+  background-color: var(--tweet);
+  border: none;
+  cursor: pointer;
+}
+
+.follow-buttons-container button:active {
+  background-color: #161616;
+}
+
+.follow-buttons-container button.unfollow {
+  background-color: black;
+}

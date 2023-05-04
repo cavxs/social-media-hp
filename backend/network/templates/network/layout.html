@@ -1,0 +1,107 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}Social Network{% endblock %}</title>
+    {% comment %}
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    {% endcomment %}
+    <link href="{% static 'network/styles.css' %}" rel="stylesheet" />
+    {%block style%}{%endblock%}
+  </head>
+  <body>
+    <nav>
+      <div class="nav-contents">
+        <a class="navbar-brand" href="#">Facevard</a>
+
+        <div>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}">All Posts</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Log In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+            {% endif %} {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                ><strong>{{ user.username }}</strong></a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="body">
+      <div id="app"></div>
+    </div>
+
+    {% comment %}
+    <div class="friends-tab">
+      <div>
+        <h2>Friends</h2>
+      </div>
+    </div>
+    {% endcomment %}
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script>
+      window.require = {};
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      const csrftoken = getCookie("csrftoken");
+      const useState = React.useState;
+    </script>
+    <script
+      src="{% static 'network/scripts/Index.js' %}"
+      type="text/babel"
+    ></script>
+    <script
+      src="{% static 'network/scripts/Profile.js' %}"
+      type="text/babel"
+    ></script>
+    <script
+      src="{% static 'network/scripts/app.js' %}"
+      type="text/babel"
+    ></script>
+  </body>
+</html>

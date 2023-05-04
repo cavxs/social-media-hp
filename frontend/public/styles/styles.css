@@ -1,0 +1,159 @@
+:root {
+  --background: #121212;
+  --tweet: #181818;
+  --idk: #242424;
+  --orange: #e85f2a;
+  --orange-l: #ee9b6f;
+}
+
+* {
+  font-family: Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  color: white;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--background);
+}
+a {
+  text-decoration: none;
+}
+nav {
+  min-width: 200px;
+  height: 100vh;
+  background-color: black;
+}
+
+nav .nav-contents {
+  position: fixed;
+  margin: 0;
+  padding-top: 70px;
+  width: 200px;
+  height: 100vh;
+  background-color: black;
+}
+
+nav .navbar-brand {
+  display: block;
+  font-family: Apple Chancery, cursive;
+  color: white;
+  text-align: center;
+  width: 100%;
+  text-decoration: none;
+  font-size: 27px;
+}
+
+nav .navbar-nav {
+  margin: 70px 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+nav .navbar-nav li {
+  margin: 30px 0;
+}
+nav .navbar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: white;
+  font-size: 17px;
+}
+
+.body {
+  flex-grow: 1;
+}
+
+.friends-tab {
+  width: 400px;
+  height: 100vh;
+  /* background-color: red; */
+}
+
+.friends-tab > div {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  border-left: solid 1px rgb(221, 221, 221);
+  padding: 0 20px;
+}
+
+/* nav .navbar-nav li a:active {
+  color: black;
+} */
+
+.button {
+  display: block;
+  cursor: pointer;
+  border: none;
+  border-radius: 30px;
+  width: 100px;
+  height: 40px;
+  color: white;
+  font-weight: bold;
+  font-size: 17px;
+  white-space: nowrap;
+  box-shadow: 0 3px 20px 0px rgb(0 0 0 / 30%);
+}
+
+.button:disabled {
+  background-color: rgb(95, 90, 68);
+  cursor: default;
+}
+
+.button.primary {
+  background-color: var(--orange);
+}
+
+.button.primary:disabled {
+  background-color: rgb(95, 90, 68);
+}
+
+.button.secondary {
+  background-color: rgb(254, 254, 254);
+  border: solid 1px #000;
+  color: #000;
+  font-size: 15px;
+}
+
+.button.secondary:disabled {
+  background-color: rgb(180, 180, 180);
+}
+
+.button.tertiary {
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+
+.button.tertiary:disabled {
+  background-color: rgb(0, 0, 0);
+  color: rgb(63, 63, 63);
+}
+
+.choicer {
+  list-style: none;
+  padding: 0;
+}
+.choicer li {
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 20px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.choicer li.selected {
+  background-color: var(--orange);
+}
+
+#registrationform input {
+  color: black;
+}
