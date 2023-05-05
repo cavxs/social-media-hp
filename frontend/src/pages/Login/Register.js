@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 
+import styles from "./Auth.module.css";
+
 const Register = () => {
   const { registerUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
@@ -26,18 +28,18 @@ const Register = () => {
     );
   };
   return (
-    <div>
+    <div className={styles["auth"]}>
       <form
-        id="registrationform"
         onSubmit={submitForm}
-        style={{
-          display: "flex",
-          width: "100%",
-          height: "100%",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        className={styles["authform"]}
+        // style={{
+        //   display: "flex",
+        //   width: "100%",
+        //   height: "100%",
+        //   flexDirection: "column",
+        //   alignItems: "center",
+        //   justifyContent: "center",
+        // }}
       >
         <input
           type="text"
@@ -75,7 +77,13 @@ const Register = () => {
           value={formData["password2"]}
           placeholder="Password Again"
         />
-        <input type="submit" value="Register" />
+        <input type="submit" className="button primary" value="Register" />
+        <p>
+          Already have an account?{" "}
+          <a style={{ color: "#ee9b6f" }} href="/login">
+            Login.
+          </a>
+        </p>
       </form>
     </div>
   );

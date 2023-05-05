@@ -29,6 +29,14 @@
   margin: 0 0 3px 0;
 }
 
+.post-content .post-name span {
+  font-size: 10px;
+  font-weight: normal;
+  color: #555;
+  margin-left: 3px;
+  cursor: default;
+}
+
 .post .post-options {
   display: flex;
   flex-direction: row;
@@ -53,11 +61,16 @@
   margin-left: 8px;
 }
 .post .option h5 {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.post .option h5 > * {
+  z-index: 2;
 }
 
 .img-container {
@@ -98,4 +111,27 @@
 
   max-height: 150px;
   resize: none;
+}
+
+.expander {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: 1;
+
+  transition: all 0.1s;
+}
+
+.expander.heart {
+  left: calc(50% - 8px);
+}
+
+.post .option h5:hover .expander {
+  width: 30px;
+  height: 30px;
 }

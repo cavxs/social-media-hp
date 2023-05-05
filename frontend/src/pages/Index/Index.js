@@ -15,11 +15,11 @@ const Index = () => {
   const { api } = useContext(AuthContext);
   const [pageInfo, setPageInfo] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
-  const outletContext = useOutletContext();
-  const [pfdata, setPfdata] = useState({
-    username: outletContext?.username || "",
-    pfp: outletContext?.pfp || "",
-  });
+  const {
+    username: myUsername,
+    pfp: myPfp,
+    logged: loggedIn,
+  } = useOutletContext();
 
   const [selected, setSelected] = useState("all");
   const currpage = searchParams.get("page")
@@ -97,73 +97,87 @@ const Index = () => {
     <>
       <div className={styles["index-header"]}>
         <h2>Home</h2>
-        <ul className="choicer">
-          <li
-            onClick={(e) => {
-              select(e, "all");
-            }}
-            className="selected"
-          >
-            All posts
-          </li>
-          <li
-            onClick={(e) => {
-              select(e, "following");
-            }}
-          >
-            Following
-          </li>
-        </ul>
+        {loggedIn && (
+          <ul className="choicer">
+            <li
+              onClick={(e) => {
+                select(e, "all");
+              }}
+              className="selected"
+            >
+              All posts
+            </li>
+
+            <li
+              onClick={(e) => {
+                select(e, "following");
+              }}
+            >
+              Following
+            </li>
+          </ul>
+        )}
       </div>
-      <div className={styles["input-container"]}>
-        <div className={styles["img-container"]}>
-          <img
-            alt="pfp"
-            src={pfdata.pfp}
-            onError={(e) =>
-              (e.target.src =
-                process.env.PUBLIC_URL + "/images/placeholder-face.png")
-            }
-          />
-        </div>
-        <form id="post-form" onSubmit={createPost}>
-          <textarea
-            id={styles["text-inp"]}
-            wrap="hard"
-            maxLength="280"
-            rows="2"
-            placeholder="What are you thinking?"
-            value={postMsg}
-            onChange={(e) => {
-              textAreaChanged(e);
-              setPostMsg(e.target.value);
-            }}
-          ></textarea>
-          <div className={styles["extras"]}>
-            <input
-              disabled={sending}
-              className="button primary"
-              type="submit"
-              value="Post"
+      {loggedIn ? (
+        <div className={styles["input-container"]}>
+          <div className={styles["img-container"]}>
+            <img
+              alt="pfp"
+              src={myPfp || ""}
+              onError={(e) =>
+                (e.target.src =
+                  process.env.PUBLIC_URL + "/images/placeholder-face.png")
+              }
             />
           </div>
-        </form>
-      </div>
+          <form id="post-form" onSubmit={createPost}>
+            <textarea
+              id={styles["text-inp"]}
+              wrap="hard"
+              maxLength="280"
+              rows="2"
+              placeholder="What are you thinking?"
+              value={postMsg}
+              onChange={(e) => {
+                textAreaChanged(e);
+                setPostMsg(e.target.value);
+              }}
+            ></textarea>
+            <div className={styles["extras"]}>
+              <input
+                disabled={sending}
+                className="button primary"
+                type="submit"
+                value="Post"
+              />
+            </div>
+          </form>
+        </div>
+      ) : (
+        <h2 style={{ textAlign: "center" }}>
+          You need to be logged in to personalize your experience.
+        </h2>
+      )}
 
       <div className={styles["posts-container"]}>
-        {posts?.map((post, i) => (
-          <Post
-            key={i}
-            pid={post.id}
-            creator={{
-              ...post.creator,
-              me: post.creator.username === pfdata.username,
-            }}
-            body={post.body}
-            likes={post.like_count}
-            isLiked={post.is_liked}
-          />
-        )) ?? null}
+        {posts?.length ? (
+          posts?.map((post, i) => (
+            <Post
+              key={i}
+              pid={post.id}
+              creator={{
+                ...post.creator,
+                me: post.creator.username === myUsername,
+              }}
+              created_at={post.created_at}
+              body={post.body}
+              likes={post.like_count}
+              isLiked={post.is_liked}
+            />
+          )) ?? null
+        ) : (
+          <h2 style={{ textAlign: "center" }}>No posts to show.</h2>
+        )}
       </div>
       <div
         style={{

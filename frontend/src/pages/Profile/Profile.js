@@ -10,7 +10,11 @@ const Profile = () => {
   const { api } = useContext(AuthContext);
   const { username } = useParams();
 
-  const { username: myUsername, pfp: myPfp } = useOutletContext();
+  const {
+    username: myUsername,
+    pfp: myPfp,
+    logged: loggedIn,
+  } = useOutletContext();
 
   const [profileData, setProfileData] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -52,10 +56,16 @@ const Profile = () => {
     <div className={styles["container"]}>
       <div className={styles["profile-info-section"]}>
         <div className={styles["header"]}>
-          <img className={styles["profile-banner"]} src="" />
-          <button className={styles["p-btn"]}>
-            <Pen color={"#ddd"} width="25" height="25" />
-          </button>
+          <img
+            className={styles["profile-banner"]}
+            src=""
+            alt="TODO: Make profile banner"
+          />
+          {isMe && (
+            <button className={styles["p-btn"]}>
+              <Pen color={"#ddd"} width="25" height="25" />
+            </button>
+          )}
         </div>
         <div className={styles["p-info-sct"]}>
           <div
@@ -72,14 +82,12 @@ const Profile = () => {
                   api(
                     `/api/user/pfp/`,
                     (res) => {
-                      console.log("saved:");
-                      console.log(res);
+                      setProfileData(res);
                     },
                     undefined,
                     {
                       method: "PUT",
                       body: formData,
-                      ctype: "multipart/form-data",
                     }
                   );
                 };
@@ -89,7 +97,7 @@ const Profile = () => {
           >
             <img
               className={styles["pfp"]}
-              src={profileData && profileData?.profile_picture}
+              src={profileData?.profile_picture || ""}
               onError={(e) =>
                 (e.target.src =
                   process.env.PUBLIC_URL + "/images/placeholder-face.png")
@@ -104,7 +112,7 @@ const Profile = () => {
           <p className={styles["p-username"]}>
             @{profileData && profileData["username"]}
           </p>
-          <p className={styles["bio"]}>Bio</p>
+          <p className={styles["bio"]}>[TODO: make bio section]</p>
           <div className={styles["p-ff-sct"]}>
             <h5>
               <span>{profileData && profileData["followers_count"]}</span>{" "}
@@ -119,56 +127,64 @@ const Profile = () => {
             </h5>
           </div>
         </div>
-        <div className={styles["follow-buttons-container"]}>
-          <button
-            className={profileData?.is_following ? styles["unfollow"] : null}
-            onClick={(e) => {
-              e.target.classList.toggle("unfollow");
-              api(
-                "api/user/relation/",
-                (res) => {
-                  console.log(res);
-                  setProfileData(res);
-                },
-                undefined,
-                {
-                  method: "PUT",
-                  body: JSON.stringify({ username: profileData?.username }),
-                  ctype: "application/json",
-                }
-              );
-            }}
-          >
-            {profileData?.is_following ? "Unfollow" : "Follow"}
-          </button>
-        </div>
-        <div className={styles["tweets-container"]}>
-          <div>
-            <ul className="choicer">
-              <li
-                onClick={(e) => {
-                  select(e, "posts");
-                }}
-                className="selected"
-              >
-                Posts
-              </li>
-              <li
-                onClick={(e) => {
-                  select(e, "likes");
-                }}
-              >
-                Likes
-              </li>
-            </ul>
+        {loggedIn && !isMe && (
+          <div className={styles["follow-buttons-container"]}>
+            <button
+              className={profileData?.is_following ? styles["unfollow"] : null}
+              onClick={(e) => {
+                e.target.classList.toggle("unfollow");
+                api(
+                  "api/user/relation/",
+                  (res) => {
+                    console.log(res);
+                    setProfileData(res);
+                  },
+                  undefined,
+                  {
+                    method: "PUT",
+                    body: JSON.stringify({ username: profileData?.username }),
+                    ctype: "application/json",
+                  }
+                );
+              }}
+            >
+              {profileData?.is_following ? "Unfollow" : "Follow"}
+            </button>
           </div>
+        )}
+        <div className={styles["tweets-container"]}>
+          {loggedIn && (
+            <div>
+              <ul className="choicer">
+                <li
+                  onClick={(e) => {
+                    select(e, "posts");
+                  }}
+                  className="selected"
+                >
+                  Posts
+                </li>
+                <li
+                  onClick={(e) => {
+                    select(e, "likes");
+                  }}
+                >
+                  Likes
+                </li>
+              </ul>
+            </div>
+          )}
           <div style={{ width: "100%" }}>
             {posts &&
               posts.map((post, i) => (
                 <Post
                   key={i}
                   pid={post.id}
-                  creator={post.creator}
+                  creator={{
+                    ...post.creator,
+                    me: post.creator.username === myUsername,
+                  }}
+                  created_at={post.created_at}
                   pfp={post.profile_picture}
                   body={post.body}
                   likes={post.like_count}
@@ -178,7 +194,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div className={styles["following-section"]}></div>
+
+      {isMe && <div className={styles["following-section"]}></div>}
     </div>
   );
 };

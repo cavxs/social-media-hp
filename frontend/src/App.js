@@ -16,14 +16,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route element={<Navigation />}>
-          <Route
-            path=":username"
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
+          <Route path=":username" element={<Profile />} />
           <Route index element={<Index />} />
         </Route>
       </Routes>

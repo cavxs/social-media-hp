@@ -47,7 +47,11 @@ class UserViewSet(ModelViewSet):
         username = request.query_params.get("username")
         if username:
             queryset = self.get_queryset().get(username=username)
-            serializer = self.get_serializer(queryset, context={"request": request, "following":True})
+            serializer = self.get_serializer(queryset)
+            if request.user.is_authenticated:
+                print("he is logged in?")
+                print(request.user)
+                serializer = self.get_serializer(queryset, context={"request": request, "following":True})
         else:
             serializer = self.get_serializer(self.get_queryset(), many=True)
         return Response(serializer.data)
@@ -81,19 +85,20 @@ class UserViewSet(ModelViewSet):
     @action(detail=False, methods=['put'])
     def relation(self, request):
         to_follow = request.data.get('username')
+        if to_follow != request.user.username:
+            requester_following = request.user.following.filter(username=to_follow)
+            user_to_follow = self.get_queryset().get(username=to_follow)
+            
+            if requester_following.exists():
+                request.user.following.remove(user_to_follow)
+            else:
+                request.user.following.add(user_to_follow)
+            
+            request.user.save()
 
-        requester_following = request.user.following.filter(username=to_follow)
-        user_to_follow = self.get_queryset().get(username=to_follow)
-        
-        if requester_following.exists():
-            request.user.following.remove(user_to_follow)
-        else:
-            request.user.following.add(user_to_follow)
-        
-        request.user.save()
-
-        serializer = self.get_serializer(user_to_follow, context={"request":request, "following":True})
-        return Response(serializer.data, status=200)
+            serializer = self.get_serializer(user_to_follow, context={"request":request, "following":True})
+            return Response(serializer.data, status=200)
+        return Response({"message": "You cannot follow/unfollow yourself"}, status=400)
 
 
     

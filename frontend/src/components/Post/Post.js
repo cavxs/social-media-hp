@@ -1,10 +1,11 @@
 import styles from "./Post.module.css";
 import Heart from "../svgs/Heart";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import Edit from "../svgs/Edit";
+import { getTimeAgo } from "../../utils";
 
 const TextArea = ({ body, setTextAreaText, textAreaText }) => {
   const textareaRef = useRef(null);
@@ -41,12 +42,23 @@ const TextArea = ({ body, setTextAreaText, textAreaText }) => {
   );
 };
 
-const Post = ({ pid, creator, body, likes = 0, isLiked = false }) => {
+const Post = ({
+  pid,
+  creator,
+  created_at,
+  body,
+  likes = 0,
+  isLiked = false,
+}) => {
   const { api } = useContext(AuthContext);
   const [forceLike, setForceLike] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [textAreaText, setTextAreaText] = useState("");
   const [bodyT, setBody] = useState(body);
+
+  const { logged: loggedIn } = useOutletContext();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setBody(body);
@@ -95,6 +107,7 @@ const Post = ({ pid, creator, body, likes = 0, isLiked = false }) => {
             <Link to={"/" + creator?.username} reloadDocument>
               {" "}
               {creator.first_name}
+              <span>{getTimeAgo(created_at)}</span>
             </Link>
           </h3>
           {editMode ? (
@@ -113,16 +126,21 @@ const Post = ({ pid, creator, body, likes = 0, isLiked = false }) => {
           <div className={styles["option"]}>
             <h5
               onClick={() => {
-                if (forceLike === 1) {
-                  unlike();
-                } else if (forceLike === -1) {
-                  like();
-                } else if (forceLike === 0) {
-                  if (isLiked) return unlike();
-                  like();
+                if (loggedIn) {
+                  if (forceLike === 1) {
+                    unlike();
+                  } else if (forceLike === -1) {
+                    like();
+                  } else if (forceLike === 0) {
+                    if (isLiked) return unlike();
+                    like();
+                  }
+                } else {
+                  navigate("/login");
                 }
               }}
             >
+              <div className={styles["expander"] + " " + styles["heart"]}></div>
               <Heart
                 width={"20"}
                 height={"20"}
@@ -142,6 +160,8 @@ const Post = ({ pid, creator, body, likes = 0, isLiked = false }) => {
           {creator.me && (
             <div className={styles["option"]}>
               <h5 onClick={() => setEditMode(true)}>
+                <div className={styles["expander"]}></div>
+
                 <Edit width={"20"} height={"20"} filled={"#ffffff"} />
                 {/* <span className={styles["like-count"]}>
               {!(forceLike === 0) ? postData.likes + forceLike : postData.likes}

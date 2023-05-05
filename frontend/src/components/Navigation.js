@@ -18,6 +18,7 @@ const Navigation = () => {
     tc(() => JSON.parse(localStorage.getItem("uInfo"))) || {
       username: "",
       pfp: "",
+      logged: false,
     }
   );
 
@@ -25,7 +26,11 @@ const Navigation = () => {
   useEffect(() => {
     if (user) {
       api(`api/user/${user["user_id"]}/`, (res) => {
-        const d = { username: res.username, pfp: res.profile_picture };
+        const d = {
+          username: res.username,
+          pfp: res.profile_picture,
+          logged: true,
+        };
         setUserInfo(d);
         localStorage.setItem("uInfo", JSON.stringify(d));
       });
@@ -52,7 +57,7 @@ const Navigation = () => {
               </li>
               <li className="nav-item">
                 {user ? (
-                  <a className="nav-link" href="/" onClick={logoutUser}>
+                  <a className="nav-link" href="/" onClick={() => logoutUser()}>
                     Log Out
                   </a>
                 ) : (
@@ -72,7 +77,11 @@ const Navigation = () => {
                 </Link>
               </li> */}
               <li className="nav-item">
-                <Link to={userInfo.username} className="nav-link">
+                <Link
+                  to={userInfo.username}
+                  reloadDocument
+                  className="nav-link"
+                >
                   <strong>{user ? "@" + userInfo.username : null}</strong>
                 </Link>
               </li>
