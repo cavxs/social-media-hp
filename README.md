@@ -4,8 +4,6 @@ This project is a simple replica of Twitter. You can make an account, and then y
 
 # How to use
 
-You have to install node in order to use this project since the frontend is made using the javascript React library from start-react-app.
-
 1. Open a terminal, cd into `backend`
 2. Install the python requirements using `pip install -r requirements.txt`
 3. Make migrations and migrate using `py manage.py makemigrations network` and py `manage.py migrate` into the terminal
@@ -35,16 +33,3 @@ You have to install node in order to use this project since the frontend is made
 - You can see the number of posts, followers, and following a user has
 - You can see a user's posts
 - You can see a user's liked posts (just like in Twitter)
-
-I wanted to add the functionality of changing the bio and the profile banner, that's why there's a TODO label there.
-
-# What I learned
-
-- I have utilized React for frontend (it's a Javascript library I've been learning this time period)
-- I have learned and utilized Django Rest Framework for backend
-- I have made my own AuthContext based on JWT Authentication
-- I learned how to connect django DRF and React
-
-# Why the project is this way
-
-When I read the specification of project 4 I wanted to make a social media platform the likes of Twitter. I used Django purely at first but I hated it because the feel of the project and the coding was really ugly. My code felt unflexible, the website felt unnatural, and the linking of Javascript with Django templates was really messy. So I had an idea of using React, the library the professor was talking about. When I tried to use it within Django templates, I stumbled across a lot of issues with importing and using global variables. I figured the best way to use React is by separating it from the backend and writing it in its own frontend folder. This way the code won't be messy and I'll learn to be like the professionals. I had some background knowledge of React too so it helped with that. But the other issue is I didn't know how to link Django and React. After a lot of searching, I stumbled upon Django Rest Framework and decided to learn it. It was really tough but I got the hang of it after 2 days. Later, I faced an issue with Authentication because it was so tough especially since the frontend and backend are separated. I tried my best to learn JWT authentication and I eventually did and wrote (with a lot of help) AuthContext.js --I've written my own version of the file later in project 5. It is a challenge writing such a file (I was stuck for about 3 days trying to grasp the concepts behind it).
